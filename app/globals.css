@@ -233,6 +233,109 @@ a {
   font-style: italic;
 }
 
+/* ===== Architecture page ===== */
+.back {
+  display: inline-block;
+  color: #6c8cff;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+.arch-section {
+  margin: 36px 0;
+}
+.arch-section h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.flow-box {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(108, 140, 255, 0.08);
+  border: 1px solid rgba(108, 140, 255, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+}
+.flow-step {
+  font-weight: 600;
+}
+.flow-note {
+  font-size: 13px;
+  color: #888;
+}
+.flow-arrow {
+  color: #6c8cff;
+  font-size: 18px;
+  line-height: 1.4;
+}
+.decisions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.decision {
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.decision h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.decision-line {
+  font-size: 14px;
+  margin: 2px 0;
+}
+.decision-why {
+  font-size: 14px;
+  color: #aaa;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+.stack {
+  width: 100%;
+  border-collapse: collapse;
+}
+.stack td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  font-size: 14px;
+  vertical-align: top;
+}
+.stack-key {
+  font-weight: 600;
+  width: 38%;
+}
+.phase-intro {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.phases {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 15px;
+}
+.arch-footer {
+  margin: 24px 0 48px;
+}
+
 .composer {
   display: flex;
   gap: 8px;

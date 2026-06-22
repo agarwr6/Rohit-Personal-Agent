@@ -44,6 +44,9 @@ export default function Home() {
           <button className="action" onClick={() => send('I want to connect with Rohit')} disabled={busy}>
             ✉ Connect with Rohit
           </button>
+          <a className="action" href="/architecture">
+            ⚙ How this was built
+          </a>
         </div>
       </header>
 
