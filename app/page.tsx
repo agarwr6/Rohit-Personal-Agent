@@ -96,6 +96,7 @@ export default function Home() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask anything about Rohit…"
+            maxLength={2000}
             disabled={busy}
           />
           <button type="submit" disabled={busy}>
