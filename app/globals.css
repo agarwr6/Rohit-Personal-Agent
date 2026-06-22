@@ -77,10 +77,48 @@ a {
   margin: 24px 0;
 }
 
+.welcome {
+  background: rgba(108, 140, 255, 0.08);
+  border: 1px solid rgba(108, 140, 255, 0.25);
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+.welcome-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.caps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.caps li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.caps li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #6c8cff;
+  font-weight: 700;
+}
+
+.dock {
+  position: sticky;
+  bottom: 0;
+  background: var(--background);
+  padding-top: 10px;
+}
+
 .suggestions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 .chip {
   border: 1px solid rgba(128, 128, 128, 0.35);
@@ -162,10 +200,7 @@ a {
 .composer {
   display: flex;
   gap: 8px;
-  position: sticky;
-  bottom: 0;
-  padding-top: 8px;
-  background: var(--background);
+  padding-bottom: 8px;
 }
 .composer input {
   flex: 1;

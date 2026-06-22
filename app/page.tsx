@@ -7,8 +7,15 @@ import Markdown from 'react-markdown';
 const SUGGESTIONS = [
   "What is Rohit's background?",
   'Tell me about his most challenging project',
-  'Is he a good fit for a Forward Deployed Engineer role?',
-  'How does he handle RAG hallucination?',
+  'What roles is he looking for?',
+  'Why should we hire him?',
+];
+
+const CAPABILITIES = [
+  'Summarize his background and experience',
+  'Walk through his projects and the impact they created',
+  'Explain why he fits a specific role you are hiring for',
+  'Answer questions about his skills and work style',
 ];
 
 export default function Home() {
@@ -25,18 +32,19 @@ export default function Home() {
   return (
     <main className="wrap">
       <header className="head">
-        <h1>Ask about Rohit</h1>
-        <p>An AI agent that answers recruiter questions about Rohit Agarwal.</p>
+        <h1>Rohit&apos;s Personal Assistant</h1>
+        <p>Hi, I am Rohit Agarwal&apos;s AI assistant. Ask me anything to get to know him.</p>
       </header>
 
       <div className="chat">
         {messages.length === 0 && (
-          <div className="suggestions">
-            {SUGGESTIONS.map((s) => (
-              <button key={s} className="chip" onClick={() => send(s)} disabled={busy}>
-                {s}
-              </button>
-            ))}
+          <div className="welcome">
+            <p className="welcome-title">Here are some things I can do:</p>
+            <ul className="caps">
+              {CAPABILITIES.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
           </div>
         )}
 
@@ -54,26 +62,36 @@ export default function Home() {
           );
         })}
 
-        {busy && <div className="typing">Agent is typing…</div>}
+        {busy && <div className="typing">Assistant is typing…</div>}
       </div>
 
-      <form
-        className="composer"
-        onSubmit={(e) => {
-          e.preventDefault();
-          send(input);
-        }}
-      >
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask anything about Rohit…"
-          disabled={busy}
-        />
-        <button type="submit" disabled={busy}>
-          Send
-        </button>
-      </form>
+      <div className="dock">
+        <div className="suggestions">
+          {SUGGESTIONS.map((s) => (
+            <button key={s} className="chip" onClick={() => send(s)} disabled={busy}>
+              {s}
+            </button>
+          ))}
+        </div>
+
+        <form
+          className="composer"
+          onSubmit={(e) => {
+            e.preventDefault();
+            send(input);
+          }}
+        >
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ask anything about Rohit…"
+            disabled={busy}
+          />
+          <button type="submit" disabled={busy}>
+            Send
+          </button>
+        </form>
+      </div>
     </main>
   );
 }
