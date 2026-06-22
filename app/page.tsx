@@ -7,10 +7,11 @@ import Markdown from 'react-markdown';
 const RESUME_URL = '/Rohit-Agarwal-Resume.pdf';
 
 const SUGGESTIONS = [
-  "What is Rohit's background?",
+  'Give me an overview of his experience',
+  "What's motivating him to look for a new role?",
+  'What is he looking for in his next role?',
+  'Does he prefer internal data or customer-facing roles?',
   'Tell me about his most challenging project',
-  'What roles is he looking for?',
-  'Why should we hire him?',
   'I want to connect with Rohit',
 ];
 
