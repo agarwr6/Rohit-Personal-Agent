@@ -2,44 +2,75 @@
 
 import { useChat } from '@ai-sdk/react';
 import { useState } from 'react';
+import Markdown from 'react-markdown';
+
+const SUGGESTIONS = [
+  "What is Rohit's background?",
+  'Tell me about his most challenging project',
+  'Is he a good fit for a Forward Deployed Engineer role?',
+  'How does he handle RAG hallucination?',
+];
 
 export default function Home() {
   const { messages, sendMessage, status } = useChat();
   const [input, setInput] = useState('');
+  const busy = status !== 'ready';
+
+  const send = (text: string) => {
+    if (!text.trim()) return;
+    sendMessage({ text });
+    setInput('');
+  };
 
   return (
-    <main style={{ maxWidth: 640, margin: '0 auto', padding: 24, fontFamily: 'system-ui' }}>
-      <h1>Ask about Rohit</h1>
-      <p style={{ color: '#666' }}>AI agent that answers recruiter questions about Rohit Agarwal.</p>
+    <main className="wrap">
+      <header className="head">
+        <h1>Ask about Rohit</h1>
+        <p>An AI agent that answers recruiter questions about Rohit Agarwal.</p>
+      </header>
 
-      <div style={{ minHeight: 240, margin: '16px 0' }}>
-        {messages.map((m) => (
-          <div key={m.id} style={{ margin: '12px 0' }}>
-            <strong>{m.role === 'user' ? 'You' : 'Agent'}:</strong>{' '}
-            {m.parts.map((part, i) =>
-              part.type === 'text' ? <span key={i}>{part.text}</span> : null
-            )}
+      <div className="chat">
+        {messages.length === 0 && (
+          <div className="suggestions">
+            {SUGGESTIONS.map((s) => (
+              <button key={s} className="chip" onClick={() => send(s)} disabled={busy}>
+                {s}
+              </button>
+            ))}
           </div>
-        ))}
+        )}
+
+        {messages.map((m) => {
+          const text = m.parts
+            .filter((p) => p.type === 'text')
+            .map((p) => (p as { text: string }).text)
+            .join('');
+          return (
+            <div key={m.id} className={`row ${m.role}`}>
+              <div className={`bubble ${m.role}`}>
+                {m.role === 'assistant' ? <Markdown>{text}</Markdown> : text}
+              </div>
+            </div>
+          );
+        })}
+
+        {busy && <div className="typing">Agent is typing…</div>}
       </div>
 
       <form
+        className="composer"
         onSubmit={(e) => {
           e.preventDefault();
-          if (!input.trim()) return;
-          sendMessage({ text: input });
-          setInput('');
+          send(input);
         }}
-        style={{ display: 'flex', gap: 8 }}
       >
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="e.g. What's Rohit's tech stack?"
-          style={{ flex: 1, padding: 8 }}
-          disabled={status !== 'ready'}
+          placeholder="Ask anything about Rohit…"
+          disabled={busy}
         />
-        <button type="submit" disabled={status !== 'ready'} style={{ padding: '8px 16px' }}>
+        <button type="submit" disabled={busy}>
           Send
         </button>
       </form>
