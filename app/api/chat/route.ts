@@ -1,6 +1,7 @@
 import { google } from '@ai-sdk/google';
-import { streamText, convertToModelMessages, type UIMessage } from 'ai';
+import { streamText, convertToModelMessages, stepCountIs, type UIMessage } from 'ai';
 import { buildSystemPrompt } from '../../lib/system-prompt';
+import { tools } from '../../lib/tools';
 
 export const maxDuration = 30;
 
@@ -21,6 +22,9 @@ export async function POST(req: Request) {
     model: google('gemini-2.5-flash'),
     system: buildSystemPrompt(latestUserText(messages)),
     messages: await convertToModelMessages(messages),
+    tools,
+    // Allow the model to call a tool, then write its final reply.
+    stopWhen: stepCountIs(3),
   });
 
   return result.toUIMessageStreamResponse();
