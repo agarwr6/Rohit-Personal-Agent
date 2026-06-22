@@ -50,6 +50,8 @@ export async function POST(req: Request) {
     stopWhen: stepCountIs(3),
     // Guardrail: bound output cost; full STARL story fits comfortably.
     maxOutputTokens: 1500,
+    // Observability: export traces (prompt, response, tools, tokens, latency) to Langfuse.
+    experimental_telemetry: { isEnabled: true, functionId: 'recruiter-chat' },
   });
 
   return result.toUIMessageStreamResponse();
