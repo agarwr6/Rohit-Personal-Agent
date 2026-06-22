@@ -4,18 +4,21 @@ import { useChat } from '@ai-sdk/react';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
 
+const RESUME_URL = '/Rohit-Agarwal-Resume.pdf';
+
 const SUGGESTIONS = [
   "What is Rohit's background?",
   'Tell me about his most challenging project',
   'What roles is he looking for?',
   'Why should we hire him?',
+  'I want to connect with Rohit',
 ];
 
 const CAPABILITIES = [
   'Summarize his background and experience',
   'Walk through his projects and the impact they created',
   'Explain why he fits a specific role you are hiring for',
-  'Answer questions about his skills and work style',
+  'Share his resume and connect you directly with Rohit',
 ];
 
 export default function Home() {
@@ -34,6 +37,14 @@ export default function Home() {
       <header className="head">
         <h1>Rohit&apos;s Personal Assistant</h1>
         <p>Hi, I am Rohit Agarwal&apos;s AI assistant. Ask me anything to get to know him.</p>
+        <div className="actions">
+          <a className="action primary" href={RESUME_URL} target="_blank" rel="noopener noreferrer">
+            ↓ Download résumé
+          </a>
+          <button className="action" onClick={() => send('I want to connect with Rohit')} disabled={busy}>
+            ✉ Connect with Rohit
+          </button>
+        </div>
       </header>
 
       <div className="chat">

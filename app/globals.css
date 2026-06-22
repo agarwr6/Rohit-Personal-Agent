@@ -69,6 +69,42 @@ a {
   font-size: 15px;
 }
 
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(108, 140, 255, 0.5);
+  background: transparent;
+  color: inherit;
+  transition: background 0.15s;
+}
+.action:hover:not(:disabled) {
+  background: rgba(108, 140, 255, 0.12);
+}
+.action.primary {
+  background: #6c8cff;
+  border-color: #6c8cff;
+  color: #fff;
+}
+.action.primary:hover {
+  background: #5a7bf0;
+}
+.action:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .chat {
   flex: 1;
   display: flex;
