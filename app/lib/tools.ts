@@ -15,18 +15,19 @@ export const tools = {
     },
   }),
 
-  // Action tool: email Rohit when a recruiter is interested, so he can follow up fast.
+  // Action tool: email Rohit when a recruiter wants to connect, with their details so he can reply.
+  // Only call this AFTER collecting the recruiter's name and email (see the connect skill).
   notify_rohit: tool({
     description:
-      'Notify Rohit by email that a recruiter is interested or wants to connect. Use when the recruiter expresses interest, mentions a specific role, or asks to get in touch. Pass a short reason and any contact details the recruiter shared.',
+      "Notify Rohit by email that a recruiter wants to connect. Only call this once you have collected the recruiter's name and email. Include their company and the role if shared.",
     inputSchema: z.object({
-      reason: z.string().describe('Short summary of the recruiter interest or the role'),
-      contact: z
-        .string()
-        .optional()
-        .describe('Recruiter name, email, company, or how to reach them, if shared'),
+      recruiterName: z.string().describe("The recruiter's name"),
+      recruiterEmail: z.string().email().describe("The recruiter's email address"),
+      company: z.string().optional().describe('The recruiter or hiring company'),
+      role: z.string().optional().describe('The role they are hiring for'),
+      message: z.string().optional().describe('Any additional context the recruiter shared'),
     }),
-    execute: async ({ reason, contact }) => {
+    execute: async ({ recruiterName, recruiterEmail, company, role, message }) => {
       const apiKey = process.env.RESEND_API_KEY;
       const to = process.env.ROHIT_NOTIFY_EMAIL;
       if (!apiKey || !to) {
@@ -36,13 +37,24 @@ export const tools = {
       const { error } = await resend.emails.send({
         from: 'Rohit Assistant <onboarding@resend.dev>',
         to,
-        subject: 'New recruiter interest from your AI assistant',
-        text: `A recruiter engaged your assistant.\n\nReason: ${reason}\nContact: ${contact ?? 'not provided'}`,
+        replyTo: recruiterEmail,
+        subject: `New recruiter: ${recruiterName}${company ? ` (${company})` : ''}${role ? ` — ${role}` : ''}`,
+        text: [
+          'A recruiter connected through your AI assistant.',
+          '',
+          `Name:    ${recruiterName}`,
+          `Email:   ${recruiterEmail}`,
+          `Company: ${company ?? 'not provided'}`,
+          `Role:    ${role ?? 'not provided'}`,
+          `Message: ${message ?? 'none'}`,
+          '',
+          'Reply to this email to reach them directly.',
+        ].join('\n'),
       });
       if (error) {
         return { ok: false, message: 'Could not send the notification.' };
       }
-      return { ok: true, message: 'Rohit has been notified and will follow up.' };
+      return { ok: true, message: 'Rohit has been notified and will follow up with you.' };
     },
   }),
 };

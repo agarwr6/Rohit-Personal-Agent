@@ -3,6 +3,7 @@ import { GROUNDING } from './grounding';
 import { FORMATTING } from './formatting';
 import { STORYTELLING } from './storytelling';
 import { FIT } from './fit';
+import { CONNECT } from './connect';
 
 // Always injected: apply to every response.
 const ALWAYS_ON = [PERSONA, GROUNDING, FORMATTING];
@@ -21,6 +22,13 @@ const CONDITIONAL: { skill: string; matches: (text: string) => boolean }[] = [
     skill: FIT,
     matches: (t) =>
       /\b(fit|role|roles|hir|why|strength|strengths|good (for|at)|suit|candidate|looking for|career|next)\b/.test(
+        t
+      ),
+  },
+  {
+    skill: CONNECT,
+    matches: (t) =>
+      /\b(connect|contact|reach|get in touch|touch|interested|interest|resume|cv|email|call|hire|hiring|opportunity|reach out)\b/.test(
         t
       ),
   },
