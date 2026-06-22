@@ -74,17 +74,35 @@ Grade how well the actual answer meets the reference on correctness, relevance, 
   };
 }
 
-async function main() {
-  const data = GOLDEN.map((c) => ({
-    input: c.input,
-    expectedOutput: c.expectedOutput,
-    metadata: { id: c.id, type: c.type, mustInclude: c.mustInclude, mustNotInclude: c.mustNotInclude },
-  }));
+const DATASET_NAME = 'recruiter-agent-golden';
 
-  const result = await langfuse.experiment.run({
+async function main() {
+  // 1. Ensure the dataset exists in Langfuse (shows in Datasets tab).
+  try {
+    await langfuse.api.datasets.create({
+      name: DATASET_NAME,
+      description: 'Golden test cases for the recruiter agent',
+    });
+  } catch {
+    // already exists; ignore
+  }
+
+  // 2. Upsert each golden case as a dataset item (upserts on id).
+  for (const c of GOLDEN) {
+    await langfuse.api.datasetItems.create({
+      datasetName: DATASET_NAME,
+      id: c.id,
+      input: c.input,
+      expectedOutput: c.expectedOutput,
+      metadata: { type: c.type, mustInclude: c.mustInclude, mustNotInclude: c.mustNotInclude },
+    });
+  }
+
+  // 3. Run the experiment ON the Langfuse dataset (shows in Experiments tab).
+  const dataset = await langfuse.dataset.get(DATASET_NAME);
+  const result = await dataset.runExperiment({
     name: 'recruiter-agent-eval',
     description: 'Offline regression eval of the recruiter agent against the golden dataset',
-    data,
     task: async (item) => runAgent(item.input as string),
     evaluators: [
       async ({ output, metadata }) => keywordEval(output as string, metadata?.mustInclude),
@@ -105,7 +123,7 @@ async function main() {
     const judgeOk = (Number(judge?.value) ?? 0) >= 0.6;
     const ok = judgeOk && keyword?.value === 1 && forbidden?.value === 1 && emdash?.value === 1;
     if (ok) pass++;
-    const id = (r.item.metadata as { id?: string })?.id ?? '?';
+    const id = (r.item as { id?: string }).id ?? '?';
     console.log(
       `${ok ? 'PASS' : 'FAIL'}  ${id.padEnd(10)} judge=${judge?.value} kw=${keyword?.value} forb=${forbidden?.value} emdash=${emdash?.value}` +
         (ok ? '' : `  <- ${judge?.comment ?? ''} ${keyword?.comment ?? ''} ${forbidden?.comment ?? ''}`)
