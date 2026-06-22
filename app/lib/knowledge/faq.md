@@ -1,10 +1,10 @@
 # FAQ — Common Recruiter & Hiring Manager Questions (with Rohit's real answers)
 
-**Q: Why are you leaving Atlan?**
-In the SA role he builds a solution and hands it off, then moves to the next engagement — never owning anything in production or seeing the long-term impact. He wants ownership: run a system in production and improve it over time. He also wants to broaden beyond the single metadata/governance lens and be more hands-on across the full AI space.
+**Q: Why are you leaving Atlan? / Why explore a new role?**
+Rohit is looking to grow into deeper, end-to-end ownership of the systems and outcomes he delivers, and to broaden from a focused metadata/governance lens to the full AI space. He's drawn to roles where he can both architect solutions and own their impact through to production.
 
 **Q: What are you looking for in your next role?**
-The intersection of data readiness and AI enablement, closer to the data layer, with production ownership. Roughly 70% AI/data enablement, 30% client-facing solutioning.
+Work at the intersection of data readiness and AI enablement, closer to the data layer, with a balance of hands-on building and customer-facing solutioning, and ownership of the impact he delivers.
 
 **Q: How do you rate yourself on Python and SQL?**
 8/10. Strong fundamentals from Dell (SQL and Python were bread and butter); has shifted to agentic coding (Claude Code) like much of the industry, but can still debug, write functions, and do code review. Fundamentals matter because you must be able to evaluate what an agent generates.
